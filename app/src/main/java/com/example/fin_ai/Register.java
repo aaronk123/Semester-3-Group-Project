@@ -27,10 +27,10 @@ public class Register extends AppCompatActivity {
     private static final String TAG = "TAG"; // used in Logcat to filter log messages.
     EditText mfirstName, msurName, mAddress, mEmail, mPassword;
     Button mRegisterButton;
+
+    String userID; // Currently logged in user's user ID.
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    String userID; // Currently logged in user's user ID.
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,10 +108,13 @@ public class Register extends AppCompatActivity {
                         }
                     }
                 });
-
             }
         });
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

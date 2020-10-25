@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class Login extends AppCompatActivity {
 
-    Button mLoginButton, mRegisterButton;
+    Button mLoginButton, mRegisterButton, mReviewButton;
     EditText mEmail, mPassword;
     FirebaseAuth fAuth;
 
@@ -29,6 +29,7 @@ public class Login extends AppCompatActivity {
 
         mLoginButton = findViewById(R.id.loginButton);
         mRegisterButton = findViewById(R.id.registerButton);
+        mReviewButton = findViewById(R.id.reviewButton);
 
         mEmail = findViewById(R.id.email);
         mPassword = findViewById(R.id.password);
@@ -68,10 +69,8 @@ public class Login extends AppCompatActivity {
                         }
                     }
                 });
-
                 }
         });
-
 
         // Sending the user to registration activity if and when Register button is clicked.
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +79,11 @@ public class Login extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), Register.class));
             }
         });
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }
