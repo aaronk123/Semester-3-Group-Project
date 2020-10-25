@@ -51,21 +51,6 @@ public class GoogleInfo extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance(); // Getting the current instance of the firestore database from firebase.
         fAuth = FirebaseAuth.getInstance(); // Getting the current instance of the authentication database from firebase.
 
-//        DocumentReference mDocumentReference = fStore.collection("users").document(fAuth.getCurrentUser().getUid());
-//
-//        mDocumentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                                                           @Override
-//                                                           public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                                                               if (task.isSuccessful()) {
-//                                                                   DocumentSnapshot documentSnapshot = task.getResult();
-//                                                                   if (documentSnapshot != null && documentSnapshot.exists()) {
-//                                                                       Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//                                                                       startActivity(intent);
-//                                                                   }
-//                                                               }
-//                                                           }
-//                                                       });
-
         mloginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
