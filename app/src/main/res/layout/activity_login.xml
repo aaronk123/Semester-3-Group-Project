@@ -78,4 +78,21 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/loginButton"
         app:layout_constraintTop_toBottomOf="@+id/password" />
+
+    <ImageButton
+        android:id="@+id/googleLoginButton"
+        android:layout_width="125dp"
+        android:layout_height="117dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="492dp"
+        android:layout_marginEnd="140dp"
+        android:layout_marginBottom="122dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/common_google_signin_btn_icon_light_normal" />
 </androidx.constraintlayout.widget.ConstraintLayout>

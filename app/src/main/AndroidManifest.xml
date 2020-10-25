@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Support"></activity>
+        <activity android:name=".GoogleInfo"></activity>
+        <activity android:name=".Support" />
         <activity android:name=".Review">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
