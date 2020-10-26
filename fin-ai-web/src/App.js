@@ -1,24 +1,40 @@
-import React from "react";
-import "./App.css";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import Home from "./Home";
-import Login from "./Login";
-import SignUp from "./SignUp";
-import { AuthProvider } from "./Auth";
-import PrivateRoute from "./PrivateRoute";
+import React, { Component } from 'react';
+import fire from './config/fire'
+import Login from './Login.js';
+import Home from './Home.js';
 
-const App = () => {
+class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: null,
+    };
+
+    this.authListener = this.authListener.bind(this);
+  }
+
+  componentDidMount() {
+    this.authListener();
+  }
+
+  authListener() {
+    fire.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ user });
+      } else {
+        this.setState({ user: null });
+      }
+    })
+  }
+
+  render() {
     return (
-        <AuthProvider>
-            <Router>
-                <div>
-                    <PrivateRoute exact path="/" component={Home} />
-                    <Route exact path="/login" component={Login} />
-                    <Route exact path="/signup" component={SignUp} />
-                </div>
-            </Router>
-        </AuthProvider>
+      <div className="App">
+        { this.state.user ? ( <Home /> ) : ( <Login /> ) }
+      </div>
     );
-};
+  }
+}
 
 export default App;

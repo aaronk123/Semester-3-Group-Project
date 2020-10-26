@@ -1,18 +1,12 @@
 {
-  "name": "react-firebase-auth",
+  "name": "react-firebase-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@grpc/grpc-js": "^1.1.7",
-    "firebase": "^7.24.0",
-    "firebase-admin": "^9.3.0",
-    "firebase-functions": "^3.11.0",
-    "grpc": "^1.24.3",
-    "react": "^16.14.0",
-    "react-dom": "^16.0.0",
-    "react-router": "^5.2.0",
-    "react-router-dom": "^5.0.0",
-    "react-scripts": "^3.4.4"
+    "firebase": "^5.8.4",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "react-scripts": "2.1.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -23,16 +17,10 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
