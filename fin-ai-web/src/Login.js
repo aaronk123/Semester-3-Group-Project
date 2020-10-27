@@ -6,6 +6,7 @@ class Login extends React.Component {
   signUp() {
     const email = document.querySelector('#email').value;
     const password = document.querySelector('#password').value;
+    const employeeID = document.querySelector('#employeeID').value;
     fire.auth().createUserWithEmailAndPassword(email, password)
       .then((u) => {
         console.log('Successfully Signed Up');
@@ -18,6 +19,7 @@ class Login extends React.Component {
   login() {
     const email = document.querySelector('#email').value;
     const password = document.querySelector('#password').value;
+    const employeeID = document.querySelector('#employeeID').value;
     fire.auth().signInWithEmailAndPassword(email, password)
       .then((u) => {
         console.log('Successfully Logged In');
@@ -38,6 +40,10 @@ class Login extends React.Component {
           <div>Password</div>
           <input id="password" placeholder="Enter Password.." type="text"/>
         </div>
+         <div>Employee ID</div>
+          <div>
+              <input id="empID" placeholder="Enter employee ID.." type="text"/>
+          </div>
         <button style={{margin: '10px'}} onClick={this.login}>Login</button>
         <button style={{margin: '10px'}} onClick={this.signUp}>Sign Up</button>
       </div>
