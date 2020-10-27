@@ -6,20 +6,31 @@ class Login extends React.Component {
   signUp() {
     const email = document.querySelector('#email').value;
     const password = document.querySelector('#password').value;
-    const employeeID = document.querySelector('#employeeID').value;
-    fire.auth().createUserWithEmailAndPassword(email, password)
-      .then((u) => {
-        console.log('Successfully Signed Up');
-      })
-      .catch((err) => {
-        console.log('Error: ' + err.toString());
-      })
+    const employeeID = document.querySelector('#empID').value.trim();
+    if (employeeID === null || employeeID.length === 0) {
+        alert("You must enter an EmployeeID");
+    } else {
+        fire.auth().createUserWithEmailAndPassword(email, password)
+            .then((u) => {
+                const ref = fire.firestore().collection("users").doc(u.user.uid)
+                const data = {
+                    email: email,
+                    ID: employeeID,
+                };
+                ref.set(data).then(r =>
+                    console.log('Successfully Signed Up with user Id ' + u.user.uid)
+                );
+            })
+            .catch((err) => {
+                console.log('Error: ' + err.toString());
+            })
+    }
   }
 
   login() {
     const email = document.querySelector('#email').value;
     const password = document.querySelector('#password').value;
-    const employeeID = document.querySelector('#employeeID').value;
+    const employeeID = document.querySelector('#empID').value;
     fire.auth().signInWithEmailAndPassword(email, password)
       .then((u) => {
         console.log('Successfully Logged In');
