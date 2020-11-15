@@ -31,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), Support.class));
     }
 
+    public void goToLoanCalc(View view){
+        startActivity(new Intent(getApplicationContext(), LoanCalculator.class));
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

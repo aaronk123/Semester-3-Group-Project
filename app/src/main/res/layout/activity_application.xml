@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Application">
+
+    <TextView
+        android:id="@+id/personTitle5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginBottom="5dp"
+        android:text="Application Type:"
+        android:textColor="#2196F3"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/registerButton2"
+        app:layout_constraintEnd_toStartOf="@+id/jointButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/grossAnnualIncome" />
+
+    <EditText
+        android:id="@+id/grossAnnualIncome"
+        android:layout_width="360dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="#2196F3"
+        android:ems="10"
+        android:hint="Gross Annual Income"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/personTitle5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/financialHistory" />
+
+    <TextView
+        android:id="@+id/financialHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="-5dp"
+        android:layout_marginEnd="210dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/financial_history"
+        android:textColor="#2196F3"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/grossAnnualIncome"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/separator2" />
+
+    <TextView
+        android:id="@+id/separator2"
+        android:layout_width="418dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="5dp"
+        android:text="________________________________________________________________"
+        android:textColor="#2196F3"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/financialHistory"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ppsn" />
+
+    <EditText
+        android:id="@+id/ppsn"
+        android:layout_width="353dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="#2196F3"
+        android:ems="10"
+        android:hint="PPSN"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/separator2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dob" />
+
+    <Button
+        android:id="@+id/registerButton2"
+        android:layout_width="237dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="87dp"
+        android:layout_marginEnd="87dp"
+        android:layout_marginBottom="20dp"
+        android:text="Submit"
+        android:textColor="#2196F3"
+        android:textStyle="bold"
+        android:onClick="onSubmit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/jointButton" />
+
+    <TextView
+        android:id="@+id/dob"
+        android:layout_width="237dp"
+        android:layout_height="41dp"
+        android:layout_marginEnd="29dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/edit_text_border"
+        android:gravity="center"
+        android:text="24/01/1990"
+        android:textColor="#2196F3"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/ppsn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/personTitle2"
+        app:layout_constraintTop_toBottomOf="@+id/contactNumber" />
+
+    <TextView
+        android:id="@+id/personTitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="25dp"
+        android:text="Date of Birth:"
+        android:textColor="#2196F3"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/ppsn"
+        app:layout_constraintEnd_toStartOf="@+id/dob"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contactNumber" />
+
+    <EditText
+        android:id="@+id/contactNumber"
+        android:layout_width="353dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#2196F3"
+        android:ems="10"
+        android:hint="Contact Number"
+        android:inputType="phone"
+        app:layout_constraintBottom_toTopOf="@+id/dob"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.777"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleSpinner" />
+
+    <Spinner
+        android:id="@+id/titleSpinner"
+        android:layout_width="256dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginEnd="29dp"
+        android:layout_marginBottom="10dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/contactNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/personTitle"
+        app:layout_constraintTop_toBottomOf="@+id/personalDetails" />
+
+    <TextView
+        android:id="@+id/personTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="23dp"
+        android:text="Title:"
+        android:textColor="#2196F3"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/contactNumber"
+        app:layout_constraintEnd_toStartOf="@+id/titleSpinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/personalDetails" />
+
+    <TextView
+        android:id="@+id/personalDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="204dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/personal_details"
+        android:textColor="#2196F3"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/personTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/separator" />
+
+    <Spinner
+        android:id="@+id/loanAmountTermSpinner"
+        android:layout_width="160dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="29dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/separator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView13"
+        app:layout_constraintTop_toBottomOf="@+id/loanAmount" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="9dp"
+        android:text="Loan amount Term:"
+        android:textColor="#2196F3"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/separator"
+        app:layout_constraintEnd_toStartOf="@+id/loanAmountTermSpinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loanAmount" />
+
+    <EditText
+        android:id="@+id/loanAmount"
+        android:layout_width="360dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="13dp"
+        android:backgroundTint="#2196F3"
+        android:ems="10"
+        android:hint="Loan Amount"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/loanAmountTermSpinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loanDetails" />
+
+    <TextView
+        android:id="@+id/loanDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="249dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/loan_details"
+        android:textColor="#2196F3"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/loanAmount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="Fin Ai"
+        android:textColor="#2196F3"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/loanDetails"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/separator"
+        android:layout_width="418dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="5dp"
+        android:text="________________________________________________________________"
+        android:textColor="#2196F3"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/personalDetails"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <RadioButton
+        android:id="@+id/jointButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="3dp"
+        android:text="Joint"
+        android:textStyle="bold"
+        android:textColor="#2196F3"
+        android:onClick="onJointClick"
+        app:layout_constraintBottom_toTopOf="@+id/registerButton2"
+        app:layout_constraintEnd_toStartOf="@+id/singleButton"
+        app:layout_constraintStart_toEndOf="@+id/personTitle5"
+        app:layout_constraintTop_toBottomOf="@+id/grossAnnualIncome" />
+
+    <RadioButton
+        android:id="@+id/singleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="16dp"
+        android:text="Single"
+        android:textStyle="bold"
+        android:textColor="#2196F3"
+        android:onClick = "onSingleClick"
+        app:layout_constraintBottom_toTopOf="@+id/registerButton2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/jointButton"
+        app:layout_constraintTop_toBottomOf="@+id/grossAnnualIncome" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
