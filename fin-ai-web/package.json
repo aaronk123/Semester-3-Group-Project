@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "firebase": "^5.8.4",
+    "firebase": "^8.0.2",
     "grpc": "^1.24.3",
     "nvm": "0.0.4",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
-    "react-scripts": "2.1.5"
+    "react-scripts": "^4.0.0",
+    "rest": "^2.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -24,5 +25,11 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "jquery": true
+  }
 }

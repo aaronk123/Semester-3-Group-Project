@@ -1,9 +1,15 @@
 import React from 'react';
 import fire from './config/fire';
 
+const chatBot = document.getElementById("chatBotiFrame");
+const testBtn = document.getElementById("testBtn");
+
 class Login extends React.Component {
 
   signUp() {
+
+      document.getElementById("chatBotiFrame").style.display = "none";
+
     const email = document.querySelector('#email').value;
     const password = document.querySelector('#password').value;
     const employeeID = document.querySelector('#empID').value.trim();
@@ -28,6 +34,9 @@ class Login extends React.Component {
   }
 
   login() {
+
+      document.getElementById("chatBotiFrame").style.display = "none";
+
     const email = document.querySelector('#email').value;
     const password = document.querySelector('#password').value;
     const employeeID = document.querySelector('#empID').value;
@@ -38,6 +47,7 @@ class Login extends React.Component {
       .catch((err) => {
         console.log('Error: ' + err.toString());
       })
+
   }
 
   render() {
@@ -55,11 +65,13 @@ class Login extends React.Component {
           <div>
               <input id="empID" placeholder="Enter employee ID.." type="text"/>
           </div>
-        <button style={{margin: '10px'}} onClick={this.login}>Login</button>
-        <button style={{margin: '10px'}} onClick={this.signUp}>Sign Up</button>
+        <button class="button1" style={{margin: '10px'}} onClick={this.login}>Login</button>
+        <button class="button2"  style={{margin: '10px'}} onClick={this.signUp}>Sign Up</button>
       </div>
     )
   }
 }
+
+/* eslint-env jquery */
 
 export default Login;
