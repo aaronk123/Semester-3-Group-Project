@@ -42,7 +42,14 @@ class Login extends React.Component {
     const employeeID = document.querySelector('#empID').value;
     fire.auth().signInWithEmailAndPassword(email, password)
       .then((u) => {
-        console.log('Successfully Logged In');
+
+        if (fire.auth().currentUser.uid == "nKUaqqst1kejYEWQaDKDJ56YlYo1"){
+            console.log("This user is an admin");
+        }
+        else{
+            console.log("regular user");
+        }
+
       })
       .catch((err) => {
         console.log('Error: ' + err.toString());
