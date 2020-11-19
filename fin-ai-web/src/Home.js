@@ -1,5 +1,6 @@
 import React from 'react';
 import fire from './config/fire';
+import ViewClientData from './ViewClientData.js';
 
 class Home extends React.Component {
 
@@ -8,6 +9,8 @@ class Home extends React.Component {
       document.getElementById("chatBotiFrame").style.display = "block";
   }
 
+  state = {clientsVisible: false}
+
   render() {
     return (
       <div style={{textAlign: 'center'}}>
@@ -15,6 +18,12 @@ class Home extends React.Component {
               hideToggle(".chatBotiFrame")
           </script>
         <h1>You Are Logged In</h1>
+          <div>
+              {this.state.clientsVisible ? <ViewClientData /> : null}
+              <button onClick={() => {
+                  this.setState({clientsVisible: true})
+              }}>View Client Data</button>
+          </div>
         <button onClick = {this.logout}>Logout</button>
       </div>
     )
