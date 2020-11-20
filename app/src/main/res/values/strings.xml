@@ -3,4 +3,6 @@
     <string name="loan_details"><u>Loan Details:</u></string>
     <string name="personal_details"><u>Personal Details:</u></string>
     <string name="financial_history"><u>Financial History:</u></string>
+    <string name="coApplicant_personal_details"><u>Co-Applicant Personal Details:</u></string>
+    <string name="coApplicant_financial_history"><u>Co-Applicant Financial History:</u></string>
 </resources>
