@@ -4,12 +4,20 @@ import ViewClientData from './ViewClientData.js';
 
 class Home extends React.Component {
 
+    state = {clientsVisible: false, exportDataBtn: false}
+
   logout() {
     fire.auth().signOut();
       document.getElementById("chatBotiFrame").style.display = "block";
   }
 
-  state = {clientsVisible: false}
+  getUserRole() {
+      if (fire.auth().currentUser.uid === "nKUaqqst1kejYEWQaDKDJ56YlYo1"){
+          return <button>Export Client Data</button>
+      }
+      else {
+      }
+  }
 
   render() {
     return (
@@ -24,6 +32,11 @@ class Home extends React.Component {
                   this.setState({clientsVisible: true})
               }}>View Client Data</button>
           </div>
+
+          <div>
+              {this.getUserRole()}
+          </div>
+
         <button onClick = {this.logout}>Logout</button>
       </div>
     )

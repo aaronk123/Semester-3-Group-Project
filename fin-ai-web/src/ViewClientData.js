@@ -1,7 +1,9 @@
 import React from 'react';
-import fire from './config/fire';
+import GetClientsByID from './GetClientsByID';
 
 class ViewClientData extends React.Component {
+
+    state = {displayClients: false}
 
     render() {
         return (
@@ -9,7 +11,9 @@ class ViewClientData extends React.Component {
                 <script type="javascript">
                     hideToggle(".chatBotiFrame")
                 </script>
-                <h1>This is another page</h1>
+                <h1>Viewing your clients</h1>
+                {this.state.displayClients ? <GetClientsByID /> : null}
+                <button onClick={() => this.setState({displayClients: true})}>View my client details</button>
             </div>
         )
     }
