@@ -21,27 +21,29 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Application extends AppCompatActivity {
 
-    TextView mLoanAmount, mLoanTerm, mGrossAnnualIncome, mGrossAnnualIncomeFill;
+    TextView mLoanAmount, mLoanTerm, mGrossAnnualIncome, mGrossAnnualIncomeFill, mDOB;
     Spinner mTitleSpinner;
-    ArrayList<String> mTitles = new ArrayList<>();
     EditText mContactNumber, mPPSN;
-    TextView mDOB;
     Button mSubmitButton;
     DatePickerDialog.OnDateSetListener mDateSetListener;
-
-    String firstName, surname, address, email, coApplicantIncome;
-    String userID; // Currently logged in user's user ID.
+    String firstName, surname, address, email, coApplicantIncome, userID; // Currently logged in user's user ID.
+    ArrayList<String> mTitles = new ArrayList<>();
+    ArrayList<String> officerIDs = new ArrayList<>();
     FirebaseAuth fAuth = FirebaseAuth.getInstance();
     FirebaseFirestore fStore = FirebaseFirestore.getInstance();
 
@@ -57,26 +59,22 @@ public class Application extends AppCompatActivity {
         mTitles.add("Dr");
 
         mTitleSpinner = findViewById(R.id.titleSpinner);
-
         mLoanAmount = findViewById(R.id.loanAmountFill);
         mLoanTerm = findViewById(R.id.loanTermFill);
         mGrossAnnualIncome = findViewById(R.id.grossAnnualIncome);
         mGrossAnnualIncomeFill = findViewById(R.id.grossAnnualIncomeFill);
-
+        mSubmitButton = findViewById(R.id.registerButton2);
+        mContactNumber = findViewById(R.id.contactNumber);
+        mPPSN = findViewById(R.id.ppsn);
+        mDOB = findViewById(R.id.dob);
 
         mLoanAmount.setText(getIntent().getStringExtra("loanAmount"));
         mLoanTerm.setText(getIntent().getStringExtra("loanTerm"));
         mGrossAnnualIncomeFill.setText(getIntent().getStringExtra("applicantIncome"));
         coApplicantIncome = getIntent().getStringExtra("coApplicantIncome");
-
-        mSubmitButton = findViewById(R.id.registerButton2);
-
         if (!coApplicantIncome.equals("0")) {
             mSubmitButton.setText("Continue to Co-Applicant Form");
         }
-        mContactNumber = findViewById(R.id.contactNumber);
-        mPPSN = findViewById(R.id.ppsn);
-        mDOB = findViewById(R.id.dob);
 
         mDOB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,10 +102,43 @@ public class Application extends AppCompatActivity {
         ArrayAdapter<String> titleAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, mTitles);
         titleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mTitleSpinner.setAdapter(titleAdapter);
+        getOfficerIDs();
+    }
+
+    public void submitForm() {
+        DocumentReference userInfoDocument = fStore.collection("users").document(userID);
+        userInfoDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot snapshot = task.getResult();
+                Map<String,Object> application = new HashMap<>();
+                String firstName = snapshot.get("firstName").toString();
+                String surname = snapshot.get("surName").toString();
+                String address = snapshot.get("address").toString();
+                String email = snapshot.get("email").toString();
+                application.put("ID", selectRandomOfficer());
+                application.put("applicationType", "Single");
+                application.put("loanAmount", mLoanAmount.getText().toString());
+                application.put("loanTerm", mLoanTerm.getText().toString());
+                application.put("title", mTitleSpinner.getSelectedItem().toString());
+                application.put("firstName", firstName);
+                application.put("surName", surname);
+                application.put("dateOfBirth", mDOB.getText().toString());
+                application.put("address", address);
+                application.put("phoneNumber", mContactNumber.getText().toString());
+                application.put("email", email);
+                application.put("ppsNumber", mPPSN.getText().toString());
+                application.put("grossAnnualIncome", mGrossAnnualIncomeFill.getText().toString());
+                DocumentReference mDocumentReference = fStore.collection("user_application_forms").document(userID);
+                mDocumentReference.set(application);
+                Toast.makeText(Application.this, "Your Application is now being processed", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public void launchCoApplicant(String ID) {
         Intent intent = new Intent(getApplicationContext(), JointApplication.class);
+        intent.putExtra("ID", selectRandomOfficer());
         intent.putExtra("userID", ID);
         intent.putExtra("applicationType", "Joint");
         intent.putExtra("firstName", firstName);
@@ -123,6 +154,28 @@ public class Application extends AppCompatActivity {
         intent.putExtra("grossAnnualIncome", mGrossAnnualIncomeFill.getText().toString());
         intent.putExtra("coApplicantIncome", coApplicantIncome);
         startActivity(intent);
+    }
+
+    public void getOfficerIDs() {
+        Task<QuerySnapshot> usersCollection = fStore.collection("users").get();
+        usersCollection.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if (document.get("ID") != null) {
+                            if (document.get("ID") != "9999")
+                                officerIDs.add(document.get("ID").toString());
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    public String selectRandomOfficer() {
+        int randomNumber = (int) (Math.random()*officerIDs.size());
+        return officerIDs.get(randomNumber);
     }
 
     public void onSubmit(View view) {
@@ -142,33 +195,7 @@ public class Application extends AppCompatActivity {
         } else if (!coApplicantIncome.equals("0")) {
             launchCoApplicant(userID);
         } else {
-            DocumentReference userInfoDocument = fStore.collection("users").document(userID);
-            userInfoDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    DocumentSnapshot snapshot = task.getResult();
-                    Map<String,Object> application = new HashMap<>();
-                    String firstName = snapshot.get("firstName").toString();
-                    String surname = snapshot.get("surName").toString();
-                    String address = snapshot.get("address").toString();
-                    String email = snapshot.get("email").toString();
-                    application.put("applicationType", "Single");
-                    application.put("loanAmount", mLoanAmount.getText().toString());
-                    application.put("loanTerm", mLoanTerm.getText().toString());
-                    application.put("title", mTitleSpinner.getSelectedItem().toString());
-                    application.put("firstName", firstName);
-                    application.put("surName", surname);
-                    application.put("dateOfBirth", mDOB.getText().toString());
-                    application.put("address", address);
-                    application.put("phoneNumber", mContactNumber.getText().toString());
-                    application.put("email", email);
-                    application.put("ppsNumber", mPPSN.getText().toString());
-                    application.put("grossAnnualIncome", mGrossAnnualIncomeFill.getText().toString());
-                    DocumentReference mDocumentReference = fStore.collection("user_application_forms").document(userID);
-                    mDocumentReference.set(application);
-                    Toast.makeText(Application.this, "Your Application is now being processed", Toast.LENGTH_LONG).show();
-                }
-            });
+            submitForm();
         }
     }
 
