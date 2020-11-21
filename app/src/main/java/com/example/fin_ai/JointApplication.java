@@ -1,41 +1,57 @@
 package com.example.fin_ai;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JointApplication extends AppCompatActivity {
 
-    EditText mFirstName, mSurname, mAddress, mContactNumber, mEmail, mPPSN, mGrossAnnualIncome;
-    TextView mDOB;
+    EditText mFirstName, mSurname, mAddress, mContactNumber, mEmail, mPPSN;
+    TextView mDOB, mGrossAnnualIncome;
     DatePickerDialog.OnDateSetListener mDateSetListener;
+    Button mSubmitJointButton;
+
+    String userID = "";
+    FirebaseAuth fAuth = FirebaseAuth.getInstance();
+    FirebaseFirestore fStore = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joint_application);
 
+        userID = getIntent().getStringExtra("userID");
+        mSubmitJointButton = findViewById(R.id.submitJointButton);
         mFirstName = findViewById(R.id.firstName1);
         mSurname = findViewById(R.id.surName1);
         mAddress = findViewById(R.id.address1);
         mContactNumber = findViewById(R.id.contactNumber1);
         mEmail = findViewById(R.id.email1);
         mPPSN = findViewById(R.id.ppsn1);
-        mGrossAnnualIncome = findViewById(R.id.grossAnnualIncome1);
+        mGrossAnnualIncome = findViewById(R.id.grossAnnualIncomeFill1);
+        mGrossAnnualIncome.setText(getIntent().getStringExtra("coApplicantIncome"));
         mDOB = findViewById(R.id.dob1);
 
         mDOB.setOnClickListener(new View.OnClickListener() {
@@ -60,18 +76,15 @@ public class JointApplication extends AppCompatActivity {
                 mDOB.setText(date);
             }
         };
-
     }
 
-    public void onContinue(View view) {
+    public void onSubmitJoint(View view) {
         String firstName = mFirstName.getText().toString();
         String surname = mSurname.getText().toString();
         String address = mAddress.getText().toString();
         String contactNumber = mContactNumber.getText().toString();
         String email = mEmail.getText().toString();
         String ppsn = mPPSN.getText().toString();
-        String grossAnnualIncome = mGrossAnnualIncome.getText().toString();
-        String dob = mDOB.getText().toString();
         if (TextUtils.isEmpty(firstName)){
             mFirstName.setError("First name field is empty.");
         } else if (TextUtils.isEmpty(surname)) {
@@ -84,28 +97,49 @@ public class JointApplication extends AppCompatActivity {
             mEmail.setError("Email field is empty.");
         } else if  (TextUtils.isEmpty(ppsn)) {
             mPPSN.setError("PPSN field is empty.");
-        } else if  (TextUtils.isEmpty(grossAnnualIncome)) {
-            mGrossAnnualIncome.setError("Gross annual income field is empty.");
         } else {
-            ArrayList<String> jointApplicantDetails = new ArrayList<>();
-            jointApplicantDetails.add(firstName);
-            jointApplicantDetails.add(surname);
-            jointApplicantDetails.add(address);
-            jointApplicantDetails.add(contactNumber);
-            jointApplicantDetails.add(email);
-            jointApplicantDetails.add(ppsn);
-            jointApplicantDetails.add(dob);
-            jointApplicantDetails.add(grossAnnualIncome);
-            Application.retrieveData(jointApplicantDetails);
-            finish();
+            userID = fAuth.getCurrentUser().getUid();
+            DocumentReference userInfoDocument = fStore.collection("users").document(userID);
+            userInfoDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    DocumentSnapshot snapshot = task.getResult();
+                    Map<String,Object> application = new HashMap<>();
+                    String firstName = snapshot.get("firstName").toString();
+                    String surname = snapshot.get("surName").toString();
+                    String address = snapshot.get("address").toString();
+                    String email = snapshot.get("email").toString();
+                    application.put("applicationType", "Joint");
+                    application.put("loanAmount", getIntent().getStringExtra("loanAmount"));
+                    application.put("loanTerm", getIntent().getStringExtra("loanTerm"));
+                    application.put("title", getIntent().getStringExtra("title"));
+                    application.put("firstName", firstName);
+                    application.put("surName", surname);
+                    application.put("dateOfBirth", getIntent().getStringExtra("dateOfBirth"));
+                    application.put("address", address);
+                    application.put("phoneNumber", getIntent().getStringExtra("phoneNumber"));
+                    application.put("email", email);
+                    application.put("ppsNumber", getIntent().getStringExtra("ppsNumber"));
+                    application.put("grossAnnualIncome",  getIntent().getStringExtra("grossAnnualIncome"));
+                    application.put("coApplicantFirstName", mFirstName.getText().toString());
+                    application.put("coApplicantSurname", mSurname.getText().toString());
+                    application.put("coApplicantContactNumber", mContactNumber.getText().toString());
+                    application.put("coApplicantEmail", mEmail.getText().toString());
+                    application.put("coApplicantDateOfBirth", mDOB.getText().toString());
+                    application.put("coApplicantAddress", mAddress.getText().toString());
+                    application.put("coApplicantGrossAnnualIncome", mGrossAnnualIncome.getText().toString());
+                    application.put("coApplicantPPSNumber", mPPSN.getText().toString());
+                    DocumentReference mDocumentReference = fStore.collection("user_application_forms").document(userID);
+                    mDocumentReference.set(application);
+                    Toast.makeText(JointApplication.this, "Your Application is now being processed", Toast.LENGTH_LONG).show();
+                }
+            });
         }
-
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Application.setSingle();
         finish(); // Destroy the activity so it cannot be accessed after logging out.
     }
 }

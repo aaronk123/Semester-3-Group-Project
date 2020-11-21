@@ -85,7 +85,7 @@ public class LoanCalculator2 extends AppCompatActivity {
 
         // Create dropdown for education
         mEducationOptions.add("Graduate");
-        mEducationOptions.add("Non-Graduate");
+        mEducationOptions.add("Not Graduate");
 
         // Create dropdown for dependents
         mDependentsOptions.add("0");
@@ -229,7 +229,7 @@ public class LoanCalculator2 extends AppCompatActivity {
                 // Volley post method
                 // Creating a RequestQueue instance
                 final String savedata = obj;
-                String url = "http://192.168.1.10:5000/submitCalculation"; // this has to be changed to your computers local ipv4 address (cmd->ipconfig)
+                String url = "http://192.168.0.129:5000/submitCalculation"; // this has to be changed to your computers local ipv4 address (cmd->ipconfig)
                 RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
@@ -238,11 +238,19 @@ public class LoanCalculator2 extends AppCompatActivity {
                             // response = "Y" / "N" - determines whether the client can apply for the loan or not.
                             if (response.equals("Y")){
                                 Toast.makeText(getApplicationContext(), "You meet the requirements to apply for this loan, forwarding to the loan application page.", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(getApplicationContext(), Application.class));
+                                Intent intent = new Intent(getApplicationContext(), Application.class);
+                                String coApplicantIncome = mCoapplicantIncome.getText().toString();
+                                if (TextUtils.isEmpty(coApplicantIncome)){
+                                    coApplicantIncome = "0"; // make coapplicant income 0 by default if the field is left blank
+                                }
+                                intent.putExtra("loanAmount", mLoanAmt.getText().toString() + "000");
+                                intent.putExtra("loanTerm", loanTerm + " months");
+                                intent.putExtra("applicantIncome", mApplicantIncome.getText().toString());
+                                intent.putExtra("coApplicantIncome", coApplicantIncome);
+                                startActivity(intent);
                             }
                             else{
                                 Toast.makeText(getApplicationContext(), "Sorry, you do not meet the requirements to apply for this loan.", Toast.LENGTH_LONG).show();
-
                             }
                         } catch (Exception e) {
                             e.printStackTrace();

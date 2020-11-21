@@ -7,4 +7,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <color name="text_color">#412234</color>
+    <color name="background_color">#f6d8ae</color>
+    <color name="window_color">#96705b</color>
+
+
+
+    <style name="CustomTheme" parent="Theme.AppCompat.Light">
+        <item name="android:navigationBarColor">@color/window_color</item>
+        <item name="colorPrimary">@color/window_color</item>
+        <item name="android:textColorPrimary">@color/text_color</item>
+        <item name="android:windowBackground">@color/background_color</item>
+        <item name="android:colorBackground">@color/background_color</item>
+        <item name="android:textColor">@color/text_color</item>
+    </style>
 </resources>
