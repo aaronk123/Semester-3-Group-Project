@@ -88,19 +88,21 @@ public class LoanCalculator extends AppCompatActivity {
                 DocumentReference mDocumentReference = fStore.collection("loanCalculation_Forms").document(userID);
 
                 Map<String, Object> loanCalculation = new HashMap<>();
-                loanCalculation.put("branchLocation", branchLocation);
+                if (TextUtils.isEmpty(branchLocation)) {
+                    mEditTextBranch.setError("Branch field is empty.");
+                } else {
+                    if (!TextUtils.isEmpty(brokerFirstName) && !TextUtils.isEmpty(brokerSurname) && !TextUtils.isEmpty(brokerEmail) && !TextUtils.isEmpty(brokerPremium)){
+                        loanCalculation.put("brokerFirstname", brokerFirstName);
+                        loanCalculation.put("brokerSurname", brokerSurname);
+                        loanCalculation.put("brokerEmail", brokerEmail);
+                        loanCalculation.put("brokerPremium", brokerPremium);
+                    }
+                    loanCalculation.put("branchLocation", branchLocation);
+                    mDocumentReference.set(loanCalculation);
 
-                if (!TextUtils.isEmpty(brokerFirstName) && !TextUtils.isEmpty(brokerSurname) && !TextUtils.isEmpty(brokerEmail) && !TextUtils.isEmpty(brokerPremium)){
-                    loanCalculation.put("brokerFirstname", brokerFirstName);
-                    loanCalculation.put("brokerSurname", brokerSurname);
-                    loanCalculation.put("brokerEmail", brokerEmail);
-                    loanCalculation.put("brokerPremium", brokerPremium);
+                    Intent intent = new Intent(getApplicationContext(), LoanCalculator2.class);
+                    startActivity(intent);
                 }
-
-                mDocumentReference.set(loanCalculation);
-
-                Intent intent = new Intent(getApplicationContext(), LoanCalculator2.class);
-                startActivity(intent);
             }
         });
     }

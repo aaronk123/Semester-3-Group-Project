@@ -138,7 +138,7 @@ public class Application extends AppCompatActivity {
 
     public void launchCoApplicant(String ID) {
         Intent intent = new Intent(getApplicationContext(), JointApplication.class);
-        intent.putExtra("ID", selectRandomOfficer());
+        intent.putExtra("officerList", officerIDs);
         intent.putExtra("userID", ID);
         intent.putExtra("applicationType", "Joint");
         intent.putExtra("firstName", firstName);
@@ -164,8 +164,9 @@ public class Application extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         if (document.get("ID") != null) {
-                            if (document.get("ID") != "9999")
+                            if (!document.get("ID").toString().equals("9999")) {
                                 officerIDs.add(document.get("ID").toString());
+                            }
                         }
                     }
                 }

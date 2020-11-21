@@ -124,7 +124,6 @@ public class LoanCalculator2 extends AppCompatActivity {
         dependents = mDependentsSpinner.getItemAtPosition(0).toString(); // Sets the dependents to the topmost index of the drowpdown spinner by default
         loanTerm = mLoanTermSpinner.getItemAtPosition(0).toString(); // Sets the loan term to the topmost index of the drowpdown spinner by default
 
-
         mGenderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -180,48 +179,54 @@ public class LoanCalculator2 extends AppCompatActivity {
 
                 String applicantIncome = mApplicantIncome.getText().toString();
                 String coApplicantIncome = mCoapplicantIncome.getText().toString();
-                if (TextUtils.isEmpty(coApplicantIncome)){
-                    coApplicantIncome = "0"; // make coapplicant income 0 by default if the field is left blank
-                }
                 String loanAmt = mLoanAmt.getText().toString();
-                String creditHistory = "1";
-                String propertyArea = "Urban";
-                String marriedChoice = "";
-
-                if (mMarriedCheckBox.isChecked()) {
-                    marriedChoice = "Yes";
+                if (TextUtils.isEmpty(applicantIncome)){
+                    mApplicantIncome.setError("Applicant income field is empty.");
+                } else if (TextUtils.isEmpty(loanAmt)){
+                    mLoanAmt.setError("Loan amount field is empty.");
                 } else {
-                    marriedChoice = "No";
+                    if (TextUtils.isEmpty(coApplicantIncome)) {
+                        coApplicantIncome = "0"; // make coapplicant income 0 by default if the field is left blank)
+                    }
+                    String creditHistory = "1";
+                    String propertyArea = "Urban";
+                    String marriedChoice = "";
+
+                    if (mMarriedCheckBox.isChecked()) {
+                        marriedChoice = "Yes";
+                    } else {
+                        marriedChoice = "No";
+                    }
+
+                    String selfEmployedChoice = "";
+
+                    if (mSelfEmployedCheckBox.isChecked()) {
+                        selfEmployedChoice = "Yes";
+                    } else {
+                        selfEmployedChoice = "No";
+                    }
+
+                    // Build up a JSON string to pass to the Fin-Ai Engine API god knows what happens
+                    // if the user types some weird stuff in monkas
+                    // Surely there is an easier way to do this.
+
+                    String data = "{\n" +
+                            "\"gender\":" + "\"" + gender + "\",\n" +
+                            "\"married\":" + "\"" + marriedChoice + "\",\n" +
+                            "\"dependents\":" + "\"" + dependents + "\",\n" +
+                            "\"education\":" + "\"" + education + "\",\n" +
+                            "\"self-employed\":" + "\"" + selfEmployedChoice + "\",\n" +
+                            "\"applicantIncome\":" + "\"" + applicantIncome + "\",\n" +
+                            "\"coApplicantIncome\":" + "\"" + coApplicantIncome + "\",\n" +
+                            "\"loanAmount\":" + "\"" + loanAmt + "\",\n" +
+                            "\"loanAmountTerm\":" + "\"" + loanTerm + "\",\n" +
+                            "\"creditHistory\":" + "\"" + creditHistory + "\",\n" +
+                            "\"propertyArea\":" + "\"" + propertyArea + "\"\n" +
+                            "}";
+                    Log.d("TEST", data);
+                    // POST the data to the API.
+                    SubmitData(data);
                 }
-
-                String selfEmployedChoice = "";
-
-                if (mSelfEmployedCheckBox.isChecked()) {
-                    selfEmployedChoice = "Yes";
-                } else {
-                    selfEmployedChoice = "No";
-                }
-
-                // Build up a JSON string to pass to the Fin-Ai Engine API god knows what happens
-                // if the user types some weird stuff in monkas
-                // Surely there is an easier way to do this.
-
-                String data = "{\n" +
-                        "\"gender\":" + "\"" + gender + "\",\n" +
-                        "\"married\":" + "\"" + marriedChoice + "\",\n" +
-                        "\"dependents\":" + "\"" + dependents + "\",\n" +
-                        "\"education\":" + "\"" + education + "\",\n" +
-                        "\"self-employed\":" + "\"" + selfEmployedChoice + "\",\n" +
-                        "\"applicantIncome\":" + "\"" + applicantIncome + "\",\n" +
-                        "\"coApplicantIncome\":" + "\"" + coApplicantIncome + "\",\n" +
-                        "\"loanAmount\":" + "\"" + loanAmt + "\",\n" +
-                        "\"loanAmountTerm\":" + "\"" + loanTerm + "\",\n" +
-                        "\"creditHistory\":" + "\"" + creditHistory + "\",\n" +
-                        "\"propertyArea\":" + "\"" + propertyArea + "\"\n" +
-                        "}";
-                Log.d("TEST", data);
-                // POST the data to the API.
-                SubmitData(data);
             }
 
 

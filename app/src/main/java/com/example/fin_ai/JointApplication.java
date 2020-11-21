@@ -22,6 +22,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +33,7 @@ public class JointApplication extends AppCompatActivity {
     TextView mDOB, mGrossAnnualIncome;
     DatePickerDialog.OnDateSetListener mDateSetListener;
     Button mSubmitJointButton;
+    ArrayList<String> officerIDs = new ArrayList<>();
     String userID = ""; // Currently logged in user's user ID.
     FirebaseAuth fAuth = FirebaseAuth.getInstance();
     FirebaseFirestore fStore = FirebaseFirestore.getInstance();
@@ -50,6 +52,8 @@ public class JointApplication extends AppCompatActivity {
         mPPSN = findViewById(R.id.ppsn1);
         mGrossAnnualIncome = findViewById(R.id.grossAnnualIncomeFill1);
         mDOB = findViewById(R.id.dob1);
+
+        officerIDs = getIntent().getStringArrayListExtra("officerList");
 
         mGrossAnnualIncome.setText(getIntent().getStringExtra("coApplicantIncome"));
         userID = getIntent().getStringExtra("userID");
@@ -78,6 +82,11 @@ public class JointApplication extends AppCompatActivity {
         };
     }
 
+    public String selectRandomOfficer() {
+        int randomNumber = (int) (Math.random()*officerIDs.size());
+        return officerIDs.get(randomNumber);
+    }
+
     public void submitForm() {
         DocumentReference userInfoDocument = fStore.collection("users").document(userID);
         userInfoDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -89,7 +98,7 @@ public class JointApplication extends AppCompatActivity {
                 String surname = snapshot.get("surName").toString();
                 String address = snapshot.get("address").toString();
                 String email = snapshot.get("email").toString();
-                application.put("ID", getIntent().getStringExtra("ID"));
+                application.put("ID", selectRandomOfficer());
                 application.put("applicationType", "Joint");
                 application.put("loanAmount", getIntent().getStringExtra("loanAmount"));
                 application.put("loanTerm", getIntent().getStringExtra("loanTerm"));
