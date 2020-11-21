@@ -22,6 +22,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,8 +33,8 @@ public class JointApplication extends AppCompatActivity {
     TextView mDOB, mGrossAnnualIncome;
     DatePickerDialog.OnDateSetListener mDateSetListener;
     Button mSubmitJointButton;
-
-    String userID = "";
+    ArrayList<String> officerIDs = new ArrayList<>();
+    String userID = ""; // Currently logged in user's user ID.
     FirebaseAuth fAuth = FirebaseAuth.getInstance();
     FirebaseFirestore fStore = FirebaseFirestore.getInstance();
 
@@ -42,7 +43,6 @@ public class JointApplication extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joint_application);
 
-        userID = getIntent().getStringExtra("userID");
         mSubmitJointButton = findViewById(R.id.submitJointButton);
         mFirstName = findViewById(R.id.firstName1);
         mSurname = findViewById(R.id.surName1);
@@ -51,8 +51,12 @@ public class JointApplication extends AppCompatActivity {
         mEmail = findViewById(R.id.email1);
         mPPSN = findViewById(R.id.ppsn1);
         mGrossAnnualIncome = findViewById(R.id.grossAnnualIncomeFill1);
-        mGrossAnnualIncome.setText(getIntent().getStringExtra("coApplicantIncome"));
         mDOB = findViewById(R.id.dob1);
+
+        officerIDs = getIntent().getStringArrayListExtra("officerList");
+
+        mGrossAnnualIncome.setText(getIntent().getStringExtra("coApplicantIncome"));
+        userID = getIntent().getStringExtra("userID");
 
         mDOB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +82,52 @@ public class JointApplication extends AppCompatActivity {
         };
     }
 
+    public String selectRandomOfficer() {
+        int randomNumber = (int) (Math.random()*officerIDs.size());
+        return officerIDs.get(randomNumber);
+    }
+
+    public void submitForm() {
+        DocumentReference userInfoDocument = fStore.collection("users").document(userID);
+        userInfoDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot snapshot = task.getResult();
+                Map<String,Object> application = new HashMap<>();
+                String firstName = snapshot.get("firstName").toString();
+                String surname = snapshot.get("surName").toString();
+                String address = snapshot.get("address").toString();
+                String email = snapshot.get("email").toString();
+                application.put("ID", selectRandomOfficer());
+                application.put("applicationType", "Joint");
+                application.put("loanAmount", getIntent().getStringExtra("loanAmount"));
+                application.put("loanTerm", getIntent().getStringExtra("loanTerm"));
+                application.put("title", getIntent().getStringExtra("title"));
+                application.put("firstName", firstName);
+                application.put("surName", surname);
+                application.put("dateOfBirth", getIntent().getStringExtra("dateOfBirth"));
+                application.put("address", address);
+                application.put("phoneNumber", getIntent().getStringExtra("phoneNumber"));
+                application.put("email", email);
+                application.put("ppsNumber", getIntent().getStringExtra("ppsNumber"));
+                application.put("grossAnnualIncome",  getIntent().getStringExtra("grossAnnualIncome"));
+                application.put("coApplicantFirstName", mFirstName.getText().toString());
+                application.put("coApplicantSurname", mSurname.getText().toString());
+                application.put("coApplicantContactNumber", mContactNumber.getText().toString());
+                application.put("coApplicantEmail", mEmail.getText().toString());
+                application.put("coApplicantDateOfBirth", mDOB.getText().toString());
+                application.put("coApplicantAddress", mAddress.getText().toString());
+                application.put("coApplicantGrossAnnualIncome", mGrossAnnualIncome.getText().toString());
+                application.put("coApplicantPPSNumber", mPPSN.getText().toString());
+                DocumentReference mDocumentReference = fStore.collection("user_application_forms").document(userID);
+                mDocumentReference.set(application);
+                Toast.makeText(JointApplication.this, "Your Application is now being processed", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     public void onSubmitJoint(View view) {
+        userID = fAuth.getCurrentUser().getUid();
         String firstName = mFirstName.getText().toString();
         String surname = mSurname.getText().toString();
         String address = mAddress.getText().toString();
@@ -98,42 +147,7 @@ public class JointApplication extends AppCompatActivity {
         } else if  (TextUtils.isEmpty(ppsn)) {
             mPPSN.setError("PPSN field is empty.");
         } else {
-            userID = fAuth.getCurrentUser().getUid();
-            DocumentReference userInfoDocument = fStore.collection("users").document(userID);
-            userInfoDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    DocumentSnapshot snapshot = task.getResult();
-                    Map<String,Object> application = new HashMap<>();
-                    String firstName = snapshot.get("firstName").toString();
-                    String surname = snapshot.get("surName").toString();
-                    String address = snapshot.get("address").toString();
-                    String email = snapshot.get("email").toString();
-                    application.put("applicationType", "Joint");
-                    application.put("loanAmount", getIntent().getStringExtra("loanAmount"));
-                    application.put("loanTerm", getIntent().getStringExtra("loanTerm"));
-                    application.put("title", getIntent().getStringExtra("title"));
-                    application.put("firstName", firstName);
-                    application.put("surName", surname);
-                    application.put("dateOfBirth", getIntent().getStringExtra("dateOfBirth"));
-                    application.put("address", address);
-                    application.put("phoneNumber", getIntent().getStringExtra("phoneNumber"));
-                    application.put("email", email);
-                    application.put("ppsNumber", getIntent().getStringExtra("ppsNumber"));
-                    application.put("grossAnnualIncome",  getIntent().getStringExtra("grossAnnualIncome"));
-                    application.put("coApplicantFirstName", mFirstName.getText().toString());
-                    application.put("coApplicantSurname", mSurname.getText().toString());
-                    application.put("coApplicantContactNumber", mContactNumber.getText().toString());
-                    application.put("coApplicantEmail", mEmail.getText().toString());
-                    application.put("coApplicantDateOfBirth", mDOB.getText().toString());
-                    application.put("coApplicantAddress", mAddress.getText().toString());
-                    application.put("coApplicantGrossAnnualIncome", mGrossAnnualIncome.getText().toString());
-                    application.put("coApplicantPPSNumber", mPPSN.getText().toString());
-                    DocumentReference mDocumentReference = fStore.collection("user_application_forms").document(userID);
-                    mDocumentReference.set(application);
-                    Toast.makeText(JointApplication.this, "Your Application is now being processed", Toast.LENGTH_LONG).show();
-                }
-            });
+            submitForm();
         }
     }
 

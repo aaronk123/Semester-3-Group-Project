@@ -5,4 +5,8 @@
     <string name="financial_history"><u>Financial History:</u></string>
     <string name="coApplicant_personal_details"><u>Co-Applicant Personal Details:</u></string>
     <string name="coApplicant_financial_history"><u>Co-Applicant Financial History:</u></string>
+    <string name="branch_details"><u>Branch Details:</u></string>
+    <string name="broker_details"><u>Broker Details (If one was used):</u></string>
+    <string name="financial_details"><u>Financial Details:</u></string>
+    <string name="contact_form_details"><u>Contact Form Details:</u></string>
 </resources>
