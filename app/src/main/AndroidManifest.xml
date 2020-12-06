@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/CustomTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ProfessionalSupport"></activity>
+        <activity android:name=".HouseCalculator"></activity>
+        <activity android:name=".ProfessionalSupport" />
         <activity android:name=".LoanCalculator2" />
         <activity android:name=".LoanCalculator" />
         <activity android:name=".Application" />

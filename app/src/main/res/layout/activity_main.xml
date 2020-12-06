@@ -56,7 +56,7 @@
         android:layout_width="339dp"
         android:layout_height="47dp"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="36dp"
         android:background="@drawable/edit_text_border"
         android:backgroundTint="@color/window_color"
@@ -64,7 +64,7 @@
         android:text="Support"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goToLoanCalc" />
+        app:layout_constraintTop_toBottomOf="@+id/goToEstimatePriceOfHouse" />
 
     <Button
         android:id="@+id/goToLoanCalc"
@@ -80,6 +80,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <Button
+        android:id="@+id/goToEstimatePriceOfHouse"
+        android:layout_width="339dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="36dp"
+        android:background="@drawable/edit_text_border"
+        android:backgroundTint="@color/window_color"
+        android:onClick="goToHousePriceEstimator"
+        android:text="House Price Estimator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goToLoanCalc" />
 
     <Button
         android:id="@+id/requestProfessioanlButton"
