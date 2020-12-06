@@ -1,6 +1,7 @@
 # Load libraries
 import random
 import pandas as pd
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import accuracy_score
@@ -85,6 +86,37 @@ def get_calculation_result():
     result = get_submission_result(loanId)
     return result
 
+@app.route('/getEstimateHousePrice', methods=['POST'])
+def get_houseprice():
+    data = pd.read_csv('kc_house_data.csv')
+
+    selected_features = ['sqft_living', 'bathrooms', 'view', 'sqft_basement', 'bedrooms',
+                         'waterfront', 'floors']
+    target = ['price']
+
+    X = data[selected_features]
+    y = pd.np.ravel(data[target])
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=100)
+
+    n_estimators = [5, 10, 15]
+
+    for n in n_estimators:
+        regressor_rf = RandomForestRegressor(n_estimators=n, random_state=100)
+        regressor_rf.fit(X_train, y_train)
+        y_prediction = regressor_rf.predict(X_test)
+
+    request_json = request.get_json()
+
+    sqft_living = request_json['sqft_living']
+    bathrooms = request_json['bathrooms']
+    view = request_json['view']
+    sqft_basement = request_json['sqft_basement']
+    bedrooms = request_json['bedrooms']
+    waterfront = request_json['waterfront']
+    floors = request_json['floors']
+
+    return str(regressor_rf.predict([[sqft_living, bathrooms, view, sqft_basement, bedrooms, waterfront, floors]]))[1:-1]
 
 # Load dataset
 def load_dataset():
@@ -180,5 +212,5 @@ def get_submission_result(id):
 
 if __name__ == '__main__':
     load_dataset()
-    app.run(host="192.168.1.10", debug=True) # host has to be changed to your computers local ipv4 address (
+    app.run(host="192.168.0.129", debug=True) # host has to be changed to your computers local ipv4 address (
     # cmd->ipconfig)
