@@ -81,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), ProfessionalSupport.class));
     }
 
+    public void goToHousePriceEstimator(View view) {
+        startActivity(new Intent(getApplicationContext(), HouseCalculator.class));
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
