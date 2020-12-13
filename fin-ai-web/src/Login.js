@@ -1,8 +1,8 @@
 import React from 'react';
 import fire from './config/fire';
 
-const chatBot = document.getElementById("chatBotiFrame");
-const testBtn = document.getElementById("testBtn");
+// const chatBot = document.getElementById("chatBotiFrame");
+// const testBtn = document.getElementById("testBtn");
 
 class Login extends React.Component {
 
@@ -39,11 +39,11 @@ class Login extends React.Component {
 
     const email = document.querySelector('#email').value;
     const password = document.querySelector('#password').value;
-    const employeeID = document.querySelector('#empID').value;
+    // const employeeID = document.querySelector('#empID').value;
     fire.auth().signInWithEmailAndPassword(email, password)
       .then((u) => {
 
-        if (fire.auth().currentUser.uid == "nKUaqqst1kejYEWQaDKDJ56YlYo1"){
+        if (fire.auth().currentUser.uid === "nKUaqqst1kejYEWQaDKDJ56YlYo1"){
             console.log("This user is an admin");
         }
         else{
@@ -66,7 +66,7 @@ class Login extends React.Component {
         </div>
         <div>
           <div>Password</div>
-          <input id="password" placeholder="Enter Password.." type="text"/>
+          <input id="password" placeholder="Enter Password.." type="password"/>
         </div>
          <div>Employee ID</div>
           <div>
