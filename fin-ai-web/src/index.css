@@ -6,6 +6,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #412234;
+  background-color: #f6d8ae;
 }
 
 code {
@@ -18,6 +20,32 @@ code {
   flex-direction: row;
   margin-left: auto;
   margin-right: auto;
+  background-color: #f6d8ae;
+}
+
+button {
+  background-color: #96705b;
+  border-radius: 5px;
+  width: 150px;
+  height: 50px;
+}
+
+input {
+  font-size: 16px;
+  font-size: max(16px, 1em);
+  font-family: inherit;
+  padding: 0.25em 0.5em;
+  background-color: #fff;
+  border: 2px solid;
+  border-radius: 20px;
+  padding: 20px;
+  margin: 10px;
+}
+
+.textLogin {
+  color: #412234;
+  font-size: 18px;
+  text-shadow: #ccc 0 1px 0, #c9c9c9 0 2px 0, #bbb 0 3px 0, #b9b9b9 0 4px 0, #aaa 0 5px 0,rgba(0,0,0,.1) 0 6px 1px, rgba(0,0,0,.1) 0 0 5px, rgba(0,0,0,.3) 0 1px 3px, rgba(0,0,0,.15) 0 3px 5px, rgba(0,0,0,.2) 0 5px 10px, rgba(0,0,0,.2) 0 10px 10px, rgba(0,0,0,.1) 0 20px 20px;
 }
 
 .vl {

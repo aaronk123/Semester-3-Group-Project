@@ -12,6 +12,7 @@ class ViewClientData extends React.Component {
                     hideToggle(".chatBotiFrame")
                 </script>
                 <h1>Viewing your clients</h1>
+                <hr></hr>
                 {this.state.displayClients ? <GetClientsByID /> : null}
                 <button onClick={() => this.setState({displayClients: true})}>View my client details</button>
             </div>
