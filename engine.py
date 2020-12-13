@@ -91,7 +91,6 @@ def get_calculation_result():
 @app.route('/exportData', methods=['GET'])
 @cross_origin()
 def export_data():
-
     file = open("export.csv")
     reader = csv.reader(file)
     lines = len(list(reader))
@@ -106,12 +105,9 @@ def export_data():
         export = export.iloc[0:0]
         export.to_csv('export.csv', index=False)
 
-
-        response = "Data exported!"
-        return response
+        return "Data exported! " + "Number of clients exported: " + str(lines - 1)
     else:
-        response = "No data to export"
-        return response
+        return "No data to export"
 
 @app.route('/getEstimateHousePrice', methods=['POST'])
 def get_houseprice():
