@@ -1,3 +1,1 @@
 Loan_ID,Gender,Married,Dependents,Education,Self_Employed,ApplicantIncome,CoapplicantIncome,LoanAmount,Loan_Amount_Term,Credit_History,Property_Area,Loan_Status
-LP004289,Male,Yes,0,Graduate,Yes,12000,10000,100,96,1,Urban,Y
-LP005475,Male,Yes,0,Graduate,Yes,10000,9000,60,96,1,Urban,Y

@@ -9,6 +9,7 @@ import joblib
 from sklearn.linear_model import LogisticRegression
 from flask import Flask, request
 from flask_restful import Resource, Api
+from flask_cors import CORS, cross_origin
 import warnings
 import csv
 
@@ -16,6 +17,8 @@ warnings.filterwarnings("ignore")
 
 app = Flask(__name__)
 api = Api(app)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/checkLoanStatus', methods=['POST'])
 def get_result():
@@ -84,6 +87,31 @@ def get_calculation_result():
     load_dataset()
     result = get_submission_result(loanId, to_append_data)
     return result
+
+@app.route('/exportData', methods=['GET'])
+@cross_origin()
+def export_data():
+
+    file = open("export.csv")
+    reader = csv.reader(file)
+    lines = len(list(reader))
+
+    if lines > 1:
+        export = pd.read_csv('export.csv')
+
+        train_set = pd.read_csv('train.csv')
+        train_set = train_set.append(export)
+        train_set.to_csv('train.csv', index=False)
+
+        export = export.iloc[0:0]
+        export.to_csv('export.csv', index=False)
+
+
+        response = "Data exported!"
+        return response
+    else:
+        response = "No data to export"
+        return response
 
 @app.route('/getEstimateHousePrice', methods=['POST'])
 def get_houseprice():
