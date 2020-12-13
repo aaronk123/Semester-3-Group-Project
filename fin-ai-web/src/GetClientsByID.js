@@ -57,6 +57,15 @@ class GetClientsByID extends React.Component {
                             let clientLoanTerm = ""
                             let clientLoanAmount = ""
 
+                            let coApplicantAddress = ""
+                            let coApplicantContactNumber = ""
+                            let coApplicantDateOfBirth = ""
+                            let coApplicantEmail = ""
+                            let coApplicantFirstName = ""
+                            let coApplicantGrossAnnualIncome = ""
+                            let coApplicantPPSNumber = ""
+                            let coApplicantSurname = ""
+
                             Object.keys(clients["title"]).map(key => clients["title"][key]).forEach(item => clientTitle = clientTitle + item);
                             Object.keys(clients["firstName"]).map(key => clients["firstName"][key]).forEach(item => clientFirstName = clientFirstName + item);
                             Object.keys(clients["surName"]).map(key => clients["surName"][key]).forEach(item => clientSurname = clientSurname + item);
@@ -70,16 +79,26 @@ class GetClientsByID extends React.Component {
                             Object.keys(clients["loanTerm"]).map(key => clients["loanTerm"][key]).forEach(item => clientLoanTerm = clientLoanTerm + item);
                             Object.keys(clients["loanAmount"]).map(key => clients["loanAmount"][key]).forEach(item => clientLoanAmount = clientLoanAmount + item);
 
-
-
-                            console.log(clientTitle, clientFirstName, clientSurname)
+                            if (clientApplicationType === "Joint") {
+                                Object.keys(clients["coApplicantAddress"]).map(key => clients["coApplicantAddress"][key]).forEach(item => coApplicantAddress = coApplicantAddress + item);
+                                Object.keys(clients["coApplicantContactNumber"]).map(key => clients["coApplicantContactNumber"][key]).forEach(item => coApplicantContactNumber = coApplicantContactNumber + item);
+                                Object.keys(clients["coApplicantDateOfBirth"]).map(key => clients["coApplicantDateOfBirth"][key]).forEach(item => coApplicantDateOfBirth = coApplicantDateOfBirth + item);
+                                Object.keys(clients["coApplicantEmail"]).map(key => clients["coApplicantEmail"][key]).forEach(item => coApplicantEmail = coApplicantEmail + item);
+                                Object.keys(clients["coApplicantFirstName"]).map(key => clients["coApplicantFirstName"][key]).forEach(item => coApplicantFirstName = coApplicantFirstName + item);
+                                Object.keys(clients["coApplicantGrossAnnualIncome"]).map(key => clients["coApplicantGrossAnnualIncome"][key]).forEach(item => coApplicantGrossAnnualIncome = coApplicantGrossAnnualIncome + item);
+                                Object.keys(clients["coApplicantPPSNumber"]).map(key => clients["coApplicantPPSNumber"][key]).forEach(item => coApplicantPPSNumber = coApplicantPPSNumber + item);
+                                Object.keys(clients["coApplicantSurname"]).map(key => clients["coApplicantSurname"][key]).forEach(item => coApplicantSurname = coApplicantSurname + item);
+                            }
 
                             clients = [
                                 {title: clientTitle, firstname: clientFirstName, surname: clientSurname,
                                     email: clientEmail, applicationType: clientApplicationType,
                                     grossAnnualIncome: clientgrossAnnualIncome, ppsNumber: clientppsNumber,
                                     phoneNumber: clientphoneNumber, address: clientaddress, dateofBirth: clientDateofBirth,
-                                    loanTerm: clientLoanTerm, LoanAmount: clientLoanAmount}
+                                    loanTerm: clientLoanTerm, LoanAmount: clientLoanAmount,
+                                    coApplicantFirstName: coApplicantFirstName, coApplicantSurname: coApplicantSurname, coApplicantEmail: coApplicantEmail,
+                                    coApplicantAddress: coApplicantAddress, coApplicantGrossAnnualIncome: coApplicantGrossAnnualIncome, coApplicantPPSNumber: coApplicantPPSNumber,
+                                    coApplicantContactNumber: coApplicantContactNumber, coApplicantDateOfBirth: coApplicantDateOfBirth}
                             ]
 
                             stateYoke.setState({ clients : stateYoke.state.clients.concat(clients)});

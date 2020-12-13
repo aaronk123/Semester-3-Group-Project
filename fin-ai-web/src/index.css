@@ -23,6 +23,8 @@ code {
 .vl {
   border-left: 2px solid black;
   height: 100px;
+  margin-right: 5px;
+  margin-left: 5px;
 }
 
 #filterText {
