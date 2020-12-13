@@ -6,10 +6,18 @@ import fire from './config/fire';
 
 class Login extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            count : 1,
+            loginFailedReason: ""
+        };
+
+        this.login = this.login.bind(this);
+    }
+
   signUp() {
-
-      document.getElementById("chatBotiFrame").style.display = "none";
-
     const email = document.querySelector('#email').value;
     const password = document.querySelector('#password').value;
     const employeeID = document.querySelector('#empID').value.trim();
@@ -34,14 +42,12 @@ class Login extends React.Component {
   }
 
   login() {
-
-      document.getElementById("chatBotiFrame").style.display = "none";
-
     const email = document.querySelector('#email').value;
     const password = document.querySelector('#password').value;
     // const employeeID = document.querySelector('#empID').value;
     fire.auth().signInWithEmailAndPassword(email, password)
       .then((u) => {
+          document.getElementById("chatBotiFrame").style.display = "none";
 
         if (fire.auth().currentUser.uid === "nKUaqqst1kejYEWQaDKDJ56YlYo1"){
             console.log("This user is an admin");
@@ -52,7 +58,8 @@ class Login extends React.Component {
 
       })
       .catch((err) => {
-        console.log('Error: ' + err.toString());
+          console.log('Error: ' + err.toString());
+          this.setState({loginFailedReason: "Incorrect details provided"})
       })
 
   }
@@ -61,19 +68,21 @@ class Login extends React.Component {
     return (
       <div style={{ textAlign: 'center' }}>
         <div>
-          <div>Email</div>
+          <p class="textLogin">Email</p>
           <input id="email" placeholder="Enter Email.." type="text"/>
         </div>
         <div>
-          <div>Password</div>
+          <p class="textLogin">Password</p>
           <input id="password" placeholder="Enter Password.." type="password"/>
         </div>
-         <div>Employee ID</div>
+         <p class="textLogin">Employee ID</p>
           <div>
               <input id="empID" placeholder="Enter employee ID.." type="text"/>
           </div>
         <button class="button1" style={{margin: '10px'}} onClick={this.login}>Login</button>
         <button class="button2"  style={{margin: '10px'}} onClick={this.signUp}>Sign Up</button>
+
+          <p>{this.state.loginFailedReason}</p>
       </div>
     )
   }
