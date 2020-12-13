@@ -17,7 +17,6 @@ warnings.filterwarnings("ignore")
 app = Flask(__name__)
 api = Api(app)
 
-
 @app.route('/checkLoanStatus', methods=['POST'])
 def get_result():
     request_json = request.get_json()
@@ -69,8 +68,8 @@ def get_calculation_result():
     # file.close()
 
     # modifying test dataframe
-    to_append = [loanId, gender, married, dependents, education, selfEmployed, applicantIncome, coApplicantIncome, loanAmount, loanAmountTerm, creditHistory, propertyArea]
-    a_series = pd.Series(to_append, index=test_original.columns)
+    to_append_data = [loanId, gender, married, dependents, education, selfEmployed, applicantIncome, coApplicantIncome, loanAmount, loanAmountTerm, creditHistory, propertyArea]
+    a_series = pd.Series(to_append_data, index=test_original.columns)
     test_original = test_original.append(a_series, ignore_index=True)
     # saving test dataframe with new modifications
     pd.DataFrame(test_original.to_csv('test.csv', index=False))
@@ -83,7 +82,7 @@ def get_calculation_result():
     pd.DataFrame(submission.to_csv('sample_submission.csv', index=False))
 
     load_dataset()
-    result = get_submission_result(loanId)
+    result = get_submission_result(loanId, to_append_data)
     return result
 
 @app.route('/getEstimateHousePrice', methods=['POST'])
@@ -200,13 +199,27 @@ def get_dataframe():
     return df
 
 
-def get_submission_result(id):
+def get_submission_result(id, to_append_data):
     result_csv = pd.read_csv('output.csv')
     results = result_csv['Loan_Status'][result_csv['Loan_ID'] == id]
     resultList = results.tolist()
     if resultList[0] == "Y":
+        # adding row to export.csv for exporting to train.csv in the future
+        export = pd.read_csv('export.csv')
+        to_append_export = to_append_data
+        to_append_export.append("Y")
+        a_series = pd.Series(to_append_export, index=export.columns)
+        export = export.append(a_series, ignore_index=True)
+        pd.DataFrame(export.to_csv('export.csv', index=False))
         return "Y"
     else:
+        # adding row to export.csv for exporting to train.csv in the future
+        export = pd.read_csv('export.csv')
+        to_append_export = to_append_data
+        to_append_export.append("N")
+        a_series = pd.Series(to_append_export, index=export.columns)
+        export = export.append(a_series, ignore_index=True)
+        pd.DataFrame(export.to_csv('export.csv', index=False))
         return "N"
 
 
