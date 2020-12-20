@@ -11,10 +11,12 @@ class Login extends React.Component {
 
         this.state = {
             count : 1,
-            loginFailedReason: ""
+            loginFailedReason: "",
+            registerFailedReason: ""
         };
 
         this.login = this.login.bind(this);
+        this.signUp = this.signUp.bind(this);
     }
 
   signUp() {
@@ -37,6 +39,7 @@ class Login extends React.Component {
             })
             .catch((err) => {
                 console.log('Error: ' + err.toString());
+                this.setState({registerFailedReason: err.toString()});
             })
     }
   }
@@ -82,7 +85,7 @@ class Login extends React.Component {
         <button class="button1" style={{margin: '10px'}} onClick={this.login}>Login</button>
         <button class="button2"  style={{margin: '10px'}} onClick={this.signUp}>Sign Up</button>
 
-          <p>{this.state.loginFailedReason}</p>
+          <p>{this.state.loginFailedReason} {this.state.registerFailedReason}</p>
       </div>
     )
   }

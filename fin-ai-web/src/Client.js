@@ -4,7 +4,7 @@ function Client(props) {
 
     if (props.applicationType === "Single"){
         return (
-            <div className="flexbox-container" style={{textAlign: 'center', width: 1900, height: 100, border: 'solid'}}>
+            <div className="flexbox-container" style={{textAlign: 'center', width: 1900, height: 150, border: 'solid'}}>
                 <p>Title: {props.title}</p>
                 <div className="vl"></div>
                 <p>First name: {props.firstname}</p>
@@ -35,7 +35,7 @@ function Client(props) {
 
     else if (props.applicationType === "Joint"){
         return (
-            <div className="flexbox-container" style={{textAlign: 'center', width: 1900, height: 100, border: 'solid'}}>
+            <div className="flexbox-container" style={{textAlign: 'center', width: 1900, height: 150, border: 'solid'}}>
                 <p>Title: {props.title}</p>
                 <div className="vl"></div>
                 <p>First name: {props.firstname}</p>
